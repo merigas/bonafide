@@ -1,0 +1,44 @@
+
+
+In Desktop :
+-------------
+
+1) Install gitbash software
+
+2) Open git bash command line utility 
+
+3) # ssh-keygen -f sample
+
+	<----->
+	It gernerates two files i) sample ii) sample.pub
+4) cat sample.pub
+
+<Copy the content of sample.pub file>
+
+On Server :
+-------------
+
+1) Create one user
+	# sudo su - 
+	# useradd raju
+	# su - raju
+
+2) Setup ssh authorized keys
+
+	$ cd 
+	$ mkdir .ssh
+	$ chmod 700 .ssh
+	$ cd .ssh
+	$ vim authorized_keys
+		<Paste the content of sample.pub from your desktop>
+	:wq
+
+	$ chmod 600 authorized_keys
+
+On Desktop : 
+
+ Test the connection
+
+ # ssh -i sample -l raju 104.196.252.9
+
+ 

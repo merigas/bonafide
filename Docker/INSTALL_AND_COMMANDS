@@ -1,0 +1,177 @@
+Install Docker:
+---------------
+
+Procedure 1 :
+-------------
+
+# yum install -y yum-utils
+
+# yum-config-manager \
+    --add-repo \
+    https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+
+# yum -y install docker-engine
+
+
+Procedure 2:
+-------------
+
+curl -fsSL https://get.docker.com/ | bash
+
+
+--------------------
+Start docker
+
+# systemctl start docker
+# systemctl enable docker
+
+To work for normal user you need to add that user in docker group.
+
+Username: admin
+
+# usermod -aG docker admin
+
+------------------------------------------------------
+docker run 
+docker ps -a 
+docker ps -q
+docker ps -l 
+docker ps -l -q
+------------------------------------------------------
+docker rm ID
+docker rm -f ID
+
+To list all the exited containers then
+
+docker ps -q --filter=status=exited 
+
+To remove all exited containers
+
+Method 1: docker rm `docker ps -q --filter=status=exited `
+Method 2: docekr ps -q --filter=status=exited  | xargs docker rm
+
+
+To remove all containers
+
+docker rm `docekr ps -a -q`
+
+-------------------------------------------
+
+  attach   -> DONE
+  build    -> DONE
+  commit   -> DONE
+  cp       -> DONE
+  create   -> DONE (Same like docker run)
+  diff     -> DONE
+  events   -> DONE
+  exec     -> DONE
+  export   -> DONE
+  history  - DONE
+  images   -> DONE
+  import   -> DONE
+  info  	-> DONE  
+  inspect   -> DONE
+  kill 	  -> DONE   
+  load    -> DONE
+  login   
+  logout  
+  logs   	-> DONE 
+  pause   	-> DONE
+  port    
+  ps   		-> DONE   
+  pull    	-> DONE
+  push    
+  rename  	-> DONE
+  restart   -> DONE
+  rm      	-> DONE
+  rmi     	-> DONE
+  run     	-> DONE
+  save     	-> DONE
+  search  	-> DONE
+  start   	-> DONE
+  stats   	-> DONE
+  stop     	-> DONE
+  tag     	-> DONE
+  top     	-> DONE
+  unpause  	-> DONE
+  update  
+  version   -> DONE
+  wait    	-> DONE
+  -----------------------------------------------------------
+  
+  docker cp :
+  
+  docker run -itd centos bash 
+  docker ps -q -l
+  <Container ID>
+  
+  docker cp sample <Container ID>:/tmp  <-- Copies file from machine to
+											container
+  
+  docker cp <Container ID>:/tmp /tmp/sample
+  
+  -----------------------------------------------------------
+  
+  docker diff :
+  
+  docker run -itd centos bash
+  docker attach <ID>
+  vi /tmp/sample 
+  
+  docker diff <ID>
+  
+  C - Change 
+  A - Add
+  D - Delete
+  
+  -----------------------------------------------------------
+  
+  docker exec :
+  
+  docker run -itd centos bash
+  docker diff ID
+  docker exec ID touch /tmp/abc
+  docker diff ID 
+  
+  -----------------------------------------------------------
+  docker save / load :
+  
+  On 1st node:
+  -----------------
+  docker run -it centos bash 
+	Cont> useradd rama
+	Cont> yum install vim -y
+	Cont> exit 
+
+  docker diff <ID>
+  docker commit <ID> versionit/centos-with-vim:latest
+  
+  docker images 
+  
+  docker save versionit/centos-with-vim -o centos-with-vim.tar 
+  
+  ### Copy the file from this server to anoither server 
+  ### Use Internal IP address  (ip a)
+  ### Create new server / Install Docker Engine / Start Docker ENgine 
+  ## Assuming IP address is 10.138.0.2 / username as admin
+  ### Enable password authentoication on new server using following process in link.
+  ### https://raw.githubusercontent.com/versionit/bonafide/master/Docker/Enable_password_auth
+  ### Set admin user password 
+  ### passwd admin
+  
+  scp centos-with-vim.tar 10.138.0.2:/home/admin
+  
+  On 2nd Node:
+  ----------------
+  docker load -i centos-with-vim.tar
+  docker images
+  docker run -itd versionit/centos-with-vim bash 
+  docker ps 
+  
+  ------------------------------------------------------------
+  docker export / import :
+  ---------------------------------------
+  To remove all docker images you can run the following command.
+
+  docker images  |awk '{print $3}' |grep -v IMAGE  |xargs docker rmi  
+  

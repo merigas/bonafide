@@ -1,0 +1,37 @@
+1) Create Instance and disable selinux and iptables.
+# curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh | bash
+
+2) Install Docker Engine
+# curl https://get.docker.com |bash
+
+3) Start and enable docker-engine
+
+# systemctl start docker
+# systemctl enable docker
+
+4) Install UCP.
+
+Ref Link : https://docs.docker.com/datacenter/ucp/1.1/installation/install-production/#step-1-validate-the-system-requirements
+
+# docker run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp install -i --host-address 10.138.0.2
+Note: IP may change for your VM Instance, Also use Internal IP
+
+Following information you need to provide to install UCP:
+1) Admin Username : admin
+2) Admin Password : password
+3) Additional aliases: <PUBLIC IP of Instance>
+
+5) After Installation browse the server over browser with https://104.198.111.43
+Note: IP may change 
+
+6) Register your account in store.docker.com and download license.
+  Once download upload the license to docker ucp of your server.
+  
+
+
+Graphical Access of Linux server.
+
+1) Install Packages.
+# yum install -y tigervnc-server xterm firefox
+# vncserver
+<Prompts for VNC PASSWORD>

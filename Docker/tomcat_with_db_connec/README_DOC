@@ -1,0 +1,37 @@
+# ls
+You should see all the three files inside that directory.
+# docker build -t rwn0217/tomcat .
+# docker images
+
+## Making links between containers
+
+# docker run -itd -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root --name mariadb mariadb
+# docker ps
+
+# docker run -itd --link mariadb:demo -p 8080:8080 rwn0217/tomcat
+
+
+Verify on the browser thart the student app is able to communicate with DB container.
+
+Note: the error is exepected. (Some database not found)
+
+Next step would be create database and create table.
+
+(On host machine)
+# sudo yum install mariadb -y
+# mysql -u root -proot -h 10.138.0.4
+
+  Mysql> create database test;
+  Mysql> use test;
+  Mysql> CREATE TABLE Students(student_id INT NOT NULL AUTO_INCREMENT,
+	student_name VARCHAR(100) NOT NULL,
+  student_addr VARCHAR(100) NOT NULL,
+	student_age VARCHAR(3) NOT NULL,
+	student_qual VARCHAR(20) NOT NULL,
+	student_percent VARCHAR(10) NOT NULL,
+	student_year_passed VARCHAR(10) NOT NULL,
+	PRIMARY KEY (student_id)
+);
+
+  Mysql> quit
+  

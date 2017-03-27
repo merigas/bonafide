@@ -1,0 +1,26 @@
+Install docker-compose
+
+# sudo curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+# sudo chmod +x /usr/local/bin/docker-compose
+
+Download this repositry and launch compose stack.
+
+# yum install git -y
+# cd /tmp
+# git clone https://github.com/versionit/bonafide.git
+# cd bonafide
+# cd Docker
+# cd docker-compose
+
+Following are the docker-compose commands
+
+# docker-compose up --build -d
+# docker-compose stop
+# docker-compose start
+# docker-compose pause
+# docker-compose unpause
+
+# docker-compose rm -f
+
+After compose up you can check ib browse whether the student app is working or not.

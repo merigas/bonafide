@@ -1,0 +1,100 @@
+Download :
+
+# wget http://redrockdigimark.com/apachemirror//httpd/httpd-2.4.25.tar.gz
+
+# tar xzf httpd-2.4.25.tar.gz
+
+# cd httpd-2.4.25
+
+Check all the options using following command.
+
+# ./configure --help 
+
+It may ask for some package dependencies.
+
+# yum install apr-devel gcc apr-util-devel pcre-devel mailcap -y
+
+# ./configure --prefix=/opt/apache2 (if you dont give prefix then it will install in /usr/local/apache2)
+
+# make 
+# echo $? (Should be 0 )
+# make install
+# echo $? (Should be 0 )
+
+Start the apache :
+# /opt/apache2/bin/apachectl start
+# /opt/apache2/bin/apachectl stop
+# /opt/apache2/bin/apachectl restart
+
+
+Configure Virtual Hosting:
+-----------------------------
+Pre-requisites - Modify Windows hosts file.
+Open notepad and RUN as administrator, Open the following file with notepad.
+
+C:\Windows\System32\drivers\etc\hosts
+
+Assuming the website you want are follwing.
+
+ecommerce.versionit.com
+ers.versionit.com
+
+Add the following lines in hosts file at the ending.
+
+Syntax: <IP address> <NAME>
+35.184.45.26 ecommerce.versionit.com
+35.184.45.26 ers.versionit.com
+
+Download and web projects.
+# cd /opt/apache2/htdocs/
+# wget https://github.com/versionit/webcontent/blob/master/ecommerce.tgz?raw=true -O ecommerce.tgz
+# wget https://github.com/versionit/webcontent/blob/master/ers.tgz?raw=true -O ers.tgz
+# tar -xzf ecommerce.tgz
+# tar -xzf ers.tgz 
+
+Virtual Hosting:
+# cd /opt/apache2/conf
+# vim httpd.conf
+<Add the follwing content in ending of the file>
+<VirtualHost *:80>
+  DocumentRoot /opt/apache2/htdocs/ecommerce
+  ServerName ecommerce.versionit.com
+</VirtualHost>
+
+<VirtualHost *:80>
+  DocumentRoot /opt/apache2/htdocs/ERS
+  DirectoryIndex index.jsp index.html
+  ServerName ers.versionit.com
+</VirtualHost>
+
+# /opt/apache2/bin/apachectl restart
+
+Check in the browser whether those configuration is working or not.
+
+
+
+SSL Configuration:
+----------------------------
+# cd httpd-2.4.25
+# ./config.nice --enable-ssl
+<In between you are going to get some error , Run the following command>
+          # yum install openssl-devel.x86_64 -y
+          # ./config.nice --enable-ssl
+# make clean 
+# make 
+# make install
+
+# cd /opt/apache2
+# cd conf
+# vim httpd.conf
+  Uncomment the following Lines.
+  1) Include conf/extra/httpd-ssl.conf
+  2) LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
+  Add the following Line.
+  LoadModule ssl_module modules/mod_ssl.so
+  
+# openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+# cd /opt/apache2/bin
+# ./apachectl restart
+
+Hit the browser with IP address with https and then you can check whether it is working or not

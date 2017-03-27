@@ -1,0 +1,122 @@
+
+Ref Link: 
+
+https://realguess.net/2015/09/07/setup-development-environment-with-vagrant-on-google-compute-engine/
+
+
+1) Install Vagrant.
+
+# yum install https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.rpm -y
+or 
+# wget https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.rpm
+# yum install vagrant_1.9.1_x86_64.rpm
+
+
+# vagrant plugin install vagrant-google
+# vagrant box add gce https://github.com/mitchellh/vagrant-google/raw/master/google.box
+
+2) Setup Google Cloud.
+
+Install glcoud:
+
+Command1: 
+----------
+# sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+[google-cloud-sdk]
+name=Google Cloud SDK
+baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
+Commands2: 
+-----------
+# yum install google-cloud-sdk
+
+Command3:
+------------
+# gcloud init
+
+Check whether the init process is working or not using the following command.
+# gcloud compute instances list
+
+3) You require a key to connect to servers.
+
+ssh-keygen -f admin  -- Enter <ENTER> key four times.
+sed -i -e 's/^/admin:/' admin.pub
+gcloud compute project-info add-metadata --metadata-from-file sshKeys=admin.pub
+
+4) Setup Service account.
+
+Goto IAM & Admin in Google Account and Click on Service Accounts and then Create Service Account along with New Key.
+
+A json file will be downloaded in your laptop. So copy that to server.
+
+
+### Here I have copied the content to demo3.json file (inside demo directory which is mentioned in Step 5).
+
+
+5) Create new vagrant configuration.
+
+# mkdir demo
+# cd demo
+# vagrant init  --> This will create a file called as Vagrantfile
+# cp /root/admin* .
+
+For One VM:
+-----------------------------------------------------------
+Vagrant.configure("2") do |config|
+config.vm.box = "gce"
+config.vm.define "gce2" do |gce2|
+gce2.vm.provider :google do |google, override|
+    google.google_project_id = "demo3-158214"
+    google.google_client_email = "raghu-907@demo3-158214.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/demo/demo3.json"
+    google.name = "gce2"
+    google.zone = "us-central1-c"
+    google.machine_type = "n1-standard-1"
+    google.image = "centos-7-v20170124"
+    override.ssh.username = "admin"
+    override.ssh.private_key_path = "/root/demo/admin"
+  end
+  end
+end
+-------------------------------------------------------------------
+
+
+Replace the content of Vagrantfile as follows.
+
+------------------------------------------------------------
+Vagrant.configure("2") do |config|
+config.vm.box = "gce"
+config.vm.define "gce2" do |gce2|
+gce2.vm.provider :google do |google, override|
+    google.google_project_id = "demo3-158214"
+    google.google_client_email = "raghu-907@demo3-158214.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/demo/demo3.json"
+    google.name = "gce2"
+    google.zone = "us-central1-c"
+    google.machine_type = "n1-standard-1"
+    google.image = "centos-7-v20170124"
+    override.ssh.username = "admin"
+    override.ssh.private_key_path = "/root/demo/admin"
+  end
+  end
+config.vm.define "gce1" do |gce1|
+gce1.vm.provider :google do |google, override|
+    google.google_project_id = "demo3-158214"
+    google.google_client_email = "raghu-907@demo3-158214.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/demo/demo3.json"
+    google.name = "gce1"
+    google.zone = "us-central1-c"
+    google.machine_type = "n1-standard-1"
+    google.image = "centos-7-v20170124"
+    override.ssh.username = "admin"
+    override.ssh.private_key_path = "/root/demo/admin"
+  end
+  end
+end
+------------------------------------------------------------------------------

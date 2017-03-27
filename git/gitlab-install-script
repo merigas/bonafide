@@ -1,0 +1,22 @@
+#!/bin/bash
+
+ID=$(id -u)
+
+if [ $ID -ne 0 ]; then 
+	echo "You should run this script as root user"
+	exit 1
+fi
+
+yum install curl policycoreutils openssh-server openssh-clients -y
+systemctl enable sshd
+systemctl start sshd
+yum install postfix -y 
+systemctl enable postfix
+systemctl start postfix
+firewall-cmd --permanent --add-service=http
+systemctl reload firewalld
+
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | bash
+yum install gitlab-ce -y
+
+gitlab-ctl reconfigure

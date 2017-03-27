@@ -1,0 +1,19 @@
+# mkdir demo
+# cd demo
+# vim Dockerfile
+-------
+FROM centos
+MAINTINER Raghu K
+RUN yum install httpd -y
+-------
+
+Using the above file you can make an image .
+
+# docker build -t rwn0217/demo .
+
+You can test the image which you created .
+# docker run rwn0217/demo yum list httpd
+
+
+
+A tomcat example for Dockerfile is kept in tomcat directory

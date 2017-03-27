@@ -1,0 +1,18 @@
+version: '2'
+services: 
+        tomcat:
+                build: ./tomcat
+                #hostname: tomcat
+                ports:
+                        - 8080:8080
+                links:
+                        - mariadb
+                env_file:
+                        - ./sample.env
+        mariadb:
+                build: ./mariadb
+                #hostname: mariadb
+                ports:
+                        - 3306:3306
+                env_file:
+                        - ./sample.env

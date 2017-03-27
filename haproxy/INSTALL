@@ -1,0 +1,13 @@
+yum install haproxy -y
+
+vi /etc/haproxy/haproxy.cfg
+
+Add the following content.
+
+frontend main *:80
+   default_backend  web
+
+backend web
+        balance roundrobin
+        server web1 10.128.0.3:80 check
+        server web2 10.128.0.7:80 check

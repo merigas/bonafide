@@ -1,0 +1,204 @@
+Ref Link : https://jeljo.wordpress.com/2013/11/23/apache-2-4-7-tomcat-7-integration/
+
+------------------------------------------------------------------------------------------------------
+
+mkdir /d01
+
+1) Download anbd Install Apache Web Server from Source.
+
+cd /opt
+wget http://www-us.apache.org/dist//httpd/httpd-2.4.25.tar.gz
+
+tar xzf httpd-2.4.25.tar.gz
+cd httpd-2.4.25
+
+yum install gcc pcre-devel apr-devel apr-util-devel -y
+
+./configure --prefix=/d01/apache
+make clean 
+make 
+make install
+
+(or) make clean && make && make install
+
+/d01/apache/bin/apachectl start
+
+<Verify over browser>
+
+
+2) Download and Install TOmcat.
+
+yum install java -y
+cd /opt
+wget http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz
+cd /d01
+tar xzf /opt/apache-tomcat-8.5.11.tar.gz
+mv apache-tomcat-8.5.11 tomcat
+cd /d01/tomcat/webapps
+mkdir sample
+cd sample
+vim index.jsp
+-----------------------
+<h1>Hello from TOmcat</h1>   
+-----------------------
+
+/d01/tomcat/bin/startup.sh
+
+Check in browser for the sample directory content.
+
+http://<IP SEVER>:8080/sample
+
+3) Download and install mod_jk.
+
+cd /opt
+wget http://www-eu.apache.org/dist/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
+tar xzf tomcat-connectors-1.2.42-src.tar.gz
+cd tomcat-connectors-1.2.42-src/native
+
+./configure --with-apxs=/d01/apache/bin/apxs
+make
+make install
+
+vim /d01/apache/conf/httpd.conf 
+
+<Add the following line>
+LoadModule jk_module modules/mod_jk.so
+
+<At the end of file add the following line>
+Include conf/mod_jk.conf
+
+
+Create mod_jk.conf file with following content
+----------------------------
+# Where to find workers.properties
+JkWorkersFile /d01/apache/conf/workers.properties
+# location of log file
+JkLogFile /d01/apache/logs/mod_jk.log
+# log level
+JkLogLevel info
+# Select the log format
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y]"
+# JkOptions indicate to send SSL KEY SIZE,
+JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
+# JkRequestLogFormat set the request format
+JkRequestLogFormat "%w %V %T"
+#Send everything for context /test to worker ajp13
+JkMount /sample tomcatA
+JkMount /sample/* tomcatA
+JkMount /student tomcatA
+JkMount /student/* tomcatA
+------------------------------
+
+Create worker.properties
+--------------------------------
+worker.list=tomcatA
+# Set properties
+worker.tomcatA.type=ajp13
+worker.tomcatA.host=localhost
+worker.tomcatA.port=8009
+--------------------------------
+
+
+Restart apache web server and check over browser
+
+http://<IP>/sample
+mkdir /d01
+
+1) Download anbd Install Apache Web Server from Source.
+
+cd /opt
+wget http://www-us.apache.org/dist//httpd/httpd-2.4.25.tar.gz
+
+tar xzf httpd-2.4.25.tar.gz
+cd httpd-2.4.25
+
+yum install gcc pcre-devel apr-devel apr-util-devel -y
+
+./configure --prefix=/d01/apache
+make clean 
+make 
+make install
+
+(or) make clean && make && make install
+
+/d01/apache/bin/apachectl start
+
+<Verify over browser>
+
+
+2) Download and Install TOmcat.
+
+yum install java -y
+cd /opt
+wget http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz
+cd /d01
+tar xzf /opt/apache-tomcat-8.5.11.tar.gz
+mv apache-tomcat-8.5.11 tomcat
+cd /d01/tomcat/webapps
+mkdir sample
+cd sample
+vim index.jsp
+-----------------------
+<h1>Hello from TOmcat</h1>   
+-----------------------
+
+/d01/tomcat/bin/startup.sh
+
+Check in browser for the sample directory content.
+
+http://<IP SEVER>:8080/sample
+
+3) Download and install mod_jk.
+
+cd /opt
+wget http://www-eu.apache.org/dist/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
+tar xzf tomcat-connectors-1.2.42-src.tar.gz
+cd tomcat-connectors-1.2.42-src/native
+
+./configure --with-apxs=/d01/apache/bin/apxs
+make
+make install
+
+vim /d01/apache/conf/httpd.conf 
+
+<Add the following line>
+LoadModule jk_module modules/mod_jk.so
+
+<At the end of file add the following line>
+Include conf/mod_jk.conf
+
+
+Create mod_jk.conf file with following content
+----------------------------
+# Where to find workers.properties
+JkWorkersFile /d01/apache/conf/workers.properties
+# location of log file
+JkLogFile /d01/apache/logs/mod_jk.log
+# log level
+JkLogLevel info
+# Select the log format
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y]"
+# JkOptions indicate to send SSL KEY SIZE,
+JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
+# JkRequestLogFormat set the request format
+JkRequestLogFormat "%w %V %T"
+#Send everything for context /test to worker ajp13
+JkMount /sample tomcatA
+JkMount /sample/* tomcatA
+JkMount /student tomcatA
+JkMount /student/* tomcatA
+------------------------------
+
+Create worker.properties
+--------------------------------
+worker.list=tomcatA
+# Set properties
+worker.tomcatA.type=ajp13
+worker.tomcatA.host=localhost
+worker.tomcatA.port=8009
+--------------------------------
+
+
+Restart apache web server and check over browser
+
+http://<IP>/sample
