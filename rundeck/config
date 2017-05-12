@@ -1,0 +1,60 @@
+1) Install RunDEck
+
+# yum install java-1.8.0 
+# rpm -Uvh http://repo.rundeck.org/latest.rpm 
+# yum install rundeck 
+# systemctl start rundeckd
+
+2) Configure RunDeck
+
+>> Take the IP address of External IP of VM Instance and replace localhost with IP in 
+
+FILE : /etc/rundeck/rundeck-config.properties
+
+# systemctl restart rundeckd
+
+3) Open the browser and hit http://IP:4440
+
+Default Username : admin
+	    Password : admin
+		
+4) Create a project 
+
+Click on "NEW-Project" -> Provide project name -> Create
+
+Jobs		-> Job configuration of what you want to do . (Allows scheduling)
+Nodes		-> List of servers for this project
+Commands	-> Execute commands of list of hosts (No Scheduling)
+Activity 	-> Job Logs
+
+
+5) Add nodes to your project.
+
+---------------------------------
+Values which I am going to use
+===========================
+Proj Name : DEV-DEPLOY
+Server 1 : dev1 , IP : 10.138.0.11
+Server 2 : dev2 , IP : 10.138.0.12
+---------------------------------
+
+# cd /var/rundeck/projects/DEV-DEPLOY/etc
+# vim resources.xml
+>>>>>>>>>>>Add the following content <<<<<<<<<<<<<<<<
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <node name="localhost" description="Rundeck server node" tags="" hostname="localhost" osArch="amd64" osFamily="unix" osName="Linux" osVersion="3.10.0-514.10.2.el7.x86_64" username="rundeck"/>
+  <node name="dev1" description="Dev Server 1"  hostname="10.138.0.11" osName="Linux"  username="admin"/>
+  <node name="dev2" description="Dev Server 2"  hostname="10.138.0.12" osName="Linux"  username="admin"/>
+</project>
+
+<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>
+
+4) Add private key to Run Deck.
+
+Click on Project Name -> Configure -> Key Storage  -> Add or Upload a Key
+
+5) Create a Job
+
+
