@@ -1,0 +1,7 @@
+
+- hosts: ansiblecentos7
+  become: yes
+  gather_facts: yes
+  tasks: 
+    - debug:
+        msg: Muy IP = {{ansible_default_ipv4.address}}

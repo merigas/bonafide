@@ -1,0 +1,9 @@
+---
+- hosts: ansiblecentos7
+  vars_files:
+        - sample.yaml
+  tasks:
+        - name: Copy sample file
+          template:
+               src: /tmp/sample.j2
+               dest: /tmp/sample1

@@ -1,0 +1,8 @@
+---
+- hosts: centos
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Start Web Server
+      service: {name: httpd, state: started}
+...

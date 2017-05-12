@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  roles:
+         - { role: httpd, when: "ansible_distribution == 'CentOS'" }
+         - { role: apache2, when: "ansible_distribution == 'Ubuntu'" }

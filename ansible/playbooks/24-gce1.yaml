@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Create GCE Instance.
+      gce:
+        instance_names: my-test-instance1
+        zone: us-central1-a
+        machine_type: n1-standard-1
+        image: centos-7-v20170327
+        state: present
+        service_account_email: "ansible@mor8am.iam.gserviceaccount.com"
+        credentials_file: "/home/admin/ansible/ansible.json"
+        project_id: "mor8am"
+        #disk_size: 10

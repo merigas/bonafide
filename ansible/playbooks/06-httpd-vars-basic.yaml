@@ -1,0 +1,28 @@
+---
+- hosts: centos
+  become: yes
+  gather_facts: no
+  vars:
+        pack_name: httpd
+        serv_name: httpd
+        ECOM_URL: https://github.com/versionit/webcontent/blob/master/ecommerce.tgz?raw=true
+        ECOM_TAR_LOC: /var/www/html/ecommerce.tgz
+        ECOM_PROJ_LOC: /var/www/html
+
+  tasks:
+    - name : Install Web Server
+      yum: {name: "{{pack_name}}", state: installed}
+
+    - name: Download Web Project ecommerce
+      get_url:
+        url: "{{ECOM_URL}}"
+        dest: "{{ECOM_TAR_LOC}}"
+
+    - name: Unarchive ecommerce project
+      unarchive:
+        src: "{{ECOM_TAR_LOC}}"
+        dest: "{{ECOM_PROJ_LOC}}"
+        remote_src: true
+ 
+    - name: Start WEb Servert
+      service: {name: "{{serv_name}}", state: started}

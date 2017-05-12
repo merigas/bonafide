@@ -1,0 +1,33 @@
+- name: Download TOmcat Connector.
+  unarchive:
+    src: http://mirror.fibergrid.in/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
+    dest: /opt
+    remote_src: true
+
+- name: ./configure of tomcat connectors
+  command: ./configure --with-apxs=/bin/apxs
+  args:
+    chdir: /opt/tomcat-connectors-1.2.42-src/native
+
+- name: make of tomcat connector
+  command: make
+  args:
+    chdir: /opt/tomcat-connectors-1.2.42-src/native
+
+- name: make install of tomcat connector
+  command: make install
+  args:
+    chdir: /opt/tomcat-connectors-1.2.42-src/native
+
+- name: copy mod-jk.conf file
+  copy: 
+   src: /home/admin/ansible/stacks/playbooks/mod-jk.conf
+   dest: /etc/httpd/conf.d/mod-jk.conf
+
+- name: copy mod-jk.conf file
+  template:
+   src: /home/admin/ansible/stacks/playbooks/worker.properties.j2
+   dest: /etc/httpd/conf.d/worker.properties
+
+- name: Restart Web Server
+  service: name=httpd state=restarted

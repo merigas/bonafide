@@ -1,0 +1,5 @@
+pack_name: httpd
+serv_name: httpd
+ECOM_URL: https://github.com/versionit/webcontent/blob/master/ecommerce.tgz?raw=true
+ECOM_TAR_LOC: /var/www/html/ecommerce.tgz
+ECOM_PROJ_LOC: /var/www/html

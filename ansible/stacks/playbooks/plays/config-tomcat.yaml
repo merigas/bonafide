@@ -1,0 +1,17 @@
+- name: Download JDBC Connector
+  get_url:
+    url: https://github.com/versionit/customwebapp/blob/master/mysql-connector-java-5.1.40.jar?raw=true
+    dest: /usr/share/tomcat/lib/mysql-connector-java-5.1.40.jar
+
+- name: Update Context.xml file
+  template:
+    src: /home/admin/ansible/stacks/playbooks/context.xml.j2
+    dest: /etc/tomcat/context.xml
+  
+- name: Restart Tomcat Service
+  service:
+    name: tomcat
+    state: restarted
+
+- wait_for:
+    port: 8005

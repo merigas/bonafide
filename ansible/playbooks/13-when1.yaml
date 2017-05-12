@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+  tasks: 
+        - name: Install Web Server
+          apt:
+                name: apache2
+                state: installed

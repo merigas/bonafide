@@ -1,0 +1,9 @@
+---
+- hosts: ansiblecentos7
+  become: yes
+  tasks:
+    - name: Crate multiple users
+      user: name="{{item}}"
+      with_items:
+        - rama
+        - rahim

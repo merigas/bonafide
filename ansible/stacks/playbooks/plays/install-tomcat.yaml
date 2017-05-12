@@ -1,0 +1,9 @@
+- name: Install Tomcat Sever
+  yum:
+    name: tomcat
+    state: installed
+
+- name: Start Tomcat
+  service:
+    name: tomcat
+    state: started

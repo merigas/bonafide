@@ -1,0 +1,17 @@
+- name: Install Web Server
+  yum:
+        name: "{{pack_name}}"
+        state: installed
+  notify: Start HTTPD
+
+- name: set index.html
+  copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
+- name: set sample.html
+  template:
+        src: sample.html.j2
+        dest: /var/www/html/sample.html
+
+- include: sample.yaml

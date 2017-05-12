@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - include: plays/install-httpd.yaml
+    - include: plays/install-tomcat.yaml
+    - include: plays/install-mariadb.yaml
+    - include: plays/deploy-war.yaml
+    - include: plays/mod-jk.yaml
+    - include: plays/config-tomcat.yaml
+    - include: plays/config-mysql.yaml

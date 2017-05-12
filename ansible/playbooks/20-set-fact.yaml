@@ -1,0 +1,16 @@
+---
+- hosts: all
+  tasks:
+        - name: Setting facts
+          set_fact:
+            pack_name: httpd
+          when: ansible_distribution == "CentOS"
+
+        - name: Setting facts
+          set_fact:
+            pack_name: apache2
+          when: ansible_distribution == "Ubuntu"
+
+
+        - debug:
+            msg: "Package Name = {{pack_name}}"

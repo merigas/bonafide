@@ -1,0 +1,7 @@
+---
+- hosts: centos
+  gather_facts: no
+  become: yes
+  tasks:
+        - include: web-server-install-play.yaml
+        - include: web-server-start-play.yaml

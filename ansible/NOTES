@@ -1,0 +1,47 @@
+
+Take one Ansible Server.
+
+1) Create One User.
+# useradd admin
+
+2) Switch to that user
+
+# su - admin  (or) sudo su - admin
+
+3) Genreate ssh keys.
+# ssh-keygen 
+	ENter -> Enter
+
+4) Take public key and opy under google cloud.
+Key: /home/admin/.ssh/id_rsa.pub
+
+5) Create ansible client machines and then connect to them.
+
+
+Process to create own facts: (Local for each server)
+------------------------------
+
+On Client Machines:
+---------------
+
+# mkdir -p /etc/ansible/facts.d
+
+# vi sample.fact
+
+[default]
+env=webserver
+
+On Server Side:
+
+# ansible all -m all
+
+
+On Playbook:
+
+{{ansible_local.sample.default.env}}
+
+
+
+#### For Ansible Vault.
+https://gist.github.com/tristanfisher/e5a306144a637dc739e7
+

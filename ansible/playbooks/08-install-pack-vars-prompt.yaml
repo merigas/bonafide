@@ -1,0 +1,13 @@
+---
+- hosts: centos
+  become: true
+  gather_facts: no
+  vars_prompt:
+    - name: pack_name
+      prompt: Enter Package to Install
+      private: no
+  tasks:
+    - name: Install {{pack_name}}
+      yum:
+        name: "{{pack_name}}"
+        state: installed

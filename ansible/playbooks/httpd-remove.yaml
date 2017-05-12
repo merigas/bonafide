@@ -1,0 +1,14 @@
+---
+- hosts: centos
+  become: true
+  gather_facts: no
+  tasks:
+    - name: remove web server
+      yum:
+        name: httpd
+        state: absent
+
+    - name: remove /var/www/html
+      file:
+        state: absent
+        path: /var/www/html 

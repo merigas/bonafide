@@ -1,0 +1,15 @@
+---
+- hosts: centos
+  gather_facts: no
+  tasks:
+    - name: Create /tmp/abc
+      file:
+        path: /tmp/abc
+        state: touch
+       
+ 
+    - name: Create /opt/abc
+      file:
+        path: /opt/abc
+        state: touch
+      become: yes

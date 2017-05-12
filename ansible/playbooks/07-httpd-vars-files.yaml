@@ -1,0 +1,23 @@
+---
+- hosts: centos
+  become: yes
+  gather_facts: no
+  vars_files:
+        - httpd-var1.yaml
+  tasks:
+    - name : Install Web Server
+      yum: {name: "{{pack_name}}", state: installed}
+
+    - name: Download Web Project ecommerce
+      get_url:
+        url: "{{ECOM_URL}}"
+        dest: "{{ECOM_TAR_LOC}}"
+
+    - name: Unarchive ecommerce project
+      unarchive:
+        src: "{{ECOM_TAR_LOC}}"
+        dest: "{{ECOM_PROJ_LOC}}"
+        remote_src: true
+ 
+    - name: Start WEb Servert
+      service: {name: "{{serv_name}}", state: started}

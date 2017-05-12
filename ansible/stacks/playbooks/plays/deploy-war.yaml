@@ -1,0 +1,4 @@
+- name: Download war file
+  get_url:
+    url: https://github.com/versionit/customwebapp/blob/master/student.war?raw=true
+    dest: /var/lib/tomcat/webapps/student.war

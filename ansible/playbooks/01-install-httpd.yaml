@@ -1,0 +1,10 @@
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Install Web Server
+      yum:
+        name: httpd
+        state: installed 
+
+...

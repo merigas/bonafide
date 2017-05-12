@@ -1,0 +1,17 @@
+
+ansibleubuntu 
+ansiblecentos7
+ansiblecentos6
+
+[centos]
+ansiblecentos7
+ansiblecentos6
+
+[centos:vars]
+ansible_user=admin
+
+[debian]
+ansibleubuntu
+
+[debian:vars]
+ansible_user=ubuntu

@@ -1,0 +1,21 @@
+---
+- hosts: centos
+  become: yes
+  gather_facts: no
+  tasks:
+    - name : Install Web Server
+      yum: {name: httpd, state: installed}
+
+    - name: Download Web Project ecommerce
+      get_url:
+        url: https://github.com/versionit/webcontent/blob/master/ecommerce.tgz?raw=true
+        dest: /var/www/html/ecommerce.tgz
+
+    - name: Unarchive ecommerce project
+      unarchive:
+        src: /var/www/html/ecommerce.tgz
+        dest: /var/www/html
+        remote_src: true
+ 
+    - name: Start WEb Servert
+      service: {name: httpd, state: started}

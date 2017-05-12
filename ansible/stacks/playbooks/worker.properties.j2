@@ -1,0 +1,5 @@
+worker.list=tomcatA
+# Set properties
+worker.tomcatA.type=ajp13
+worker.tomcatA.host={{ansible_default_ipv4.address}}
+worker.tomcatA.port=8009

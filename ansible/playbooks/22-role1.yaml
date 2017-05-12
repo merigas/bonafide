@@ -1,0 +1,5 @@
+---
+- hosts: ansiblecentos7
+  become: yes
+  roles:
+    - webserver

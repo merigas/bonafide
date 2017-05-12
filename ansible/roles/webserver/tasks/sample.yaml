@@ -1,0 +1,4 @@
+- name: Sample File
+  file:
+        path: /tmp/versionit
+

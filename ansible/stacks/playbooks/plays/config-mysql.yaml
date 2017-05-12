@@ -1,0 +1,13 @@
+- name: COpy MySql Table
+  copy: 
+    src: /home/admin/ansible/stacks/playbooks/student.sql
+    dest: /tmp/student.sql
+
+- mysql_db:
+    name: test
+    login_host: localhost
+    login_user: root
+    state: present
+
+- name: Configure mysql DB and tables.
+  mysql_db: name=test state=import target=/tmp/student.sql

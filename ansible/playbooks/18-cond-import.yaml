@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  #vars:
+  #     pack_name: httpd
+  #vars_files:
+  #      - "{{ ansible_distribution }}.yaml" 
+  #      - CentOS.yaml
+  tasks:
+        - name: Installe "{{pack_name}}"
+          yum: name="{{pack_name}}" state=installed
+          when: ansible_distribution == "CentOS" 
+          vars_files:
+                - "{{ ansible_distribution }}.yaml"
+        - name: Install "{{pack_name}}"
+          apt: name="{{pack_name}}" state=installed
+          when: ansible_distribution == "Ubuntu"
+          vars_files:
+                - "{{ ansible_distribution }}.yaml"

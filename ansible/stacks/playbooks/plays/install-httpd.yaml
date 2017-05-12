@@ -1,0 +1,9 @@
+- name: Install web sserver
+  yum:
+        name: "{{ item }}"
+        state: installed
+  with_items:
+        - httpd
+        - httpd-devel
+        - gcc
+

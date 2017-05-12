@@ -1,0 +1,4 @@
+- name: Install HTTPD Web Server
+  yum : 
+        name: httpd
+        state: installed
