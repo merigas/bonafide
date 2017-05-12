@@ -1,0 +1,6 @@
+AUTH_EMAIL = "ansible@mor8am.iam.gserviceaccount.com"
+AUTH_PROJECT = "mor8am"
+AUTH_KEYPATH = "/opt/demo.pem"
+CLIENT_RB = "/root/chef-repo/gce-demo-tmp/client_rb"
+FIRST_BOOT = "/root/chef-repo/gce-demo-tmp/first_boot_json"
+VALIDATION_PEM = "/root/chef-repo/.chef/chef-server-validation.pem"
