@@ -1,0 +1,15 @@
+Cookbooks:
+
+Dependency in cookbooks:
+
+1) Recipe of same cookbooks
+  --> Inside recipe
+	include_recipe 'httpd::default'
+
+2) Recipe of different cookbooks.
+
+  --> Inside recipe
+	inlcude_recipe 'show1'
+
+  --> Inside metadata.rb
+	depends 'show1'

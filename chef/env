@@ -1,0 +1,76 @@
+ENVIORNMENTS:
+------------------
+
+
+cd chef-repo
+##### Cretaed a cookbook for demo of env.
+
+cd cookbooks
+chef generate cookbook env
+cd env/recipies
+vim default.rb
+
+package 'httpd' do 
+	action :install
+end
+
+knife cookbook upload env
+
+#### Modify the metadata.rb file 
+version '0.1.1'
+
+vim default.rb
+
+package 'httpd' do 
+	action :install
+end
+
+package 'httpd-devel' do 
+	action :install
+end
+
+knife cookbook upload env
+
+
+------------------
+cd chef-repo
+mkdir environments
+cd environments
+
+vim prod.rb
+
+name "prod"
+description "Prod Env"
+cookbook_versions({
+    "env" => "= 0.1.0",
+})
+
+vim dev.rb
+
+name "dev"
+description "Dev Env"
+cookbook_versions({
+    "env" => "= 0.1.1",
+})
+
+knife environment from file prod.rb
+knife environment from file dev.rb
+
+
+
+-----------------------------------------------
+Create nodes using knife.
+
+https://github.com/chef/knife-google
+
+-----------------------------------------------
+
+
+COOKBOOK DIRECTORIES:
+
+- recipies
+- attributes
+- files
+- templates
+- libraries
+- resources / definitions

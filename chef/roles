@@ -1,0 +1,46 @@
+Roles:
+
+Pre-Setup:
+-----------
+# cd chef-repo/cookbooks
+# chef generate cookbook webservice
+# chef generate cookbook appservice
+# chef generate cookbook dbservice
+
+# vim webservice/recipes/install.rb
+
+package 'httpd'
+
+# vim appservice/recipes/install.rb
+
+package 'tomcat'
+
+# vim dbservice/recipes/install-server.rb
+
+package 'mariadb-server'
+
+
+# vim dbservice/recipes/install-client.rb
+
+package 'mariadb'
+
+# knife cookbook upload webservice
+# knife cookbook upload appservice
+# knife cookbook upload dbservice
+
+# cd chef-repo
+# mkdir roles
+# cd roles
+# vim stack-install.rb
+
+name 'stack-install'
+description "Web + TOmcat + DB Server install"
+run_list 'recipe[webservice::install]',
+         'recipe[appservice::install]',
+         'recipe[dbservice::install-server]',
+         'recipe[dbservice::install-client]'
+
+
+# knife role from file stack-install.rb
+
+# knife node run_list set chefnode1 'role[stack-install]'
